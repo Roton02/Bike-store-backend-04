@@ -2,8 +2,8 @@ interface IUser {
   name: string
   email: string
   password: string
-  role: 'admin' | 'user'
-  isBlocked: boolean
+  role?: 'customer'
+  isBlocked?: boolean
 }
 
 export default IUser
