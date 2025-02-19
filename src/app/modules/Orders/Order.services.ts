@@ -33,7 +33,7 @@ const OrderCreateIntroDB = async (orderData: IOrder) => {
       },
       { session }
     )
-    // console.log(decrement, 'decrement from bikes collection')
+    orderData.totalPrice = isExistBike.price * orderData.quantity
     const result = await OrderModel.create(orderData, { session })
     await session.commitTransaction()
     await session.endSession()
@@ -46,18 +46,21 @@ const OrderCreateIntroDB = async (orderData: IOrder) => {
 }
 
 const getAllOrderFromDB = async () => {
-  const result = await BikeModel.find()
+  const result = await OrderModel.find()
   return result
 }
 //complete get specifice data
 const getASpeecificeOrderFromDB = async (email: string) => {
-  const result = await BikeModel.findById(productId)
+  const result = await OrderModel.find({ email })
   return result
 }
 
-//update product
-const updateOrderIntroDB = async (productId: string, updateData) => {
-  const result = await BikeModel.findByIdAndUpdate(productId, updateData, {
+//update order
+const updateOrderIntroDB = async (productId: string, payload: boolean) => {
+  const isDeleted = payload
+    ? { isAproved: 'approve' }
+    : { isAproved: 'canceled' }
+  const result = await OrderModel.findByIdAndUpdate(productId, isDeleted, {
     new: true,
     runValidators: true,
   })
@@ -66,7 +69,7 @@ const updateOrderIntroDB = async (productId: string, updateData) => {
 
 //Delete Data
 const deleteOrderFromDB = async (productId: string | null | undefined) => {
-  const result = await BikeModel.deleteOne({ _id: productId })
+  const result = await OrderModel.deleteOne({ _id: productId })
   return result
 }
 

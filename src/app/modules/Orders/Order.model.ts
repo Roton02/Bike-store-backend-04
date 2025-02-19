@@ -22,6 +22,13 @@ const OrderSchema = new Schema<IOrder>(
     totalPrice: {
       type: Number,
     },
+    isAproved: {
+      type: String,
+      enum: {
+        values: ['approve', 'pending', 'canceled'],
+      },
+      default: 'pending',
+    },
   },
   {
     timestamps: true,

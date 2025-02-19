@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { OrderServices } from './Order.services'
@@ -41,8 +42,9 @@ const getSpecificBike = catchAsync(async (req: Request, res: Response) => {
 //Complete : update products
 const updateProducts = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.productId
-  const updateData = req.body
-  const result = await OrderServices.updateOrderIntroDB(productId, updateData)
+  const { isApprove } = req.body
+  const { email } = req.user as JwtPayload
+  const result = await OrderServices.updateOrderIntroDB(productId, isApprove)
   sendResponse(res, {
     success: true,
     message: 'BIKE Update successfully',
@@ -52,8 +54,8 @@ const updateProducts = catchAsync(async (req: Request, res: Response) => {
 })
 const deleteBike = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.productId
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const result = await OrderServices.deleteOrderFromDB(productId)
+  const { email } = req.user as JwtPayload
+  const result = await OrderServices.deleteOrderFromDB(productId, email)
   sendResponse(res, {
     success: true,
     message: 'bike deleted successfully',
