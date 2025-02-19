@@ -12,7 +12,7 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, 'Email is required'],
       unique: true,
     },
     password: {
@@ -22,8 +22,7 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ['admin', 'user'],
-      default: 'user',
+      default: 'customer',
     },
     isBlocked: {
       type: Boolean,
@@ -32,6 +31,7 @@ const userSchema = new Schema<IUser>(
   },
   {
     timestamps: true,
+    versionKey: false,
   }
 )
 
