@@ -1,41 +1,48 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import mongoose from 'mongoose'
+import AppError from '../../error/AppError'
 import BikeModel from '../Products/Bikes.model'
 import IOrder from './Order.interface'
 import OrderModel from './Order.model'
 
 const OrderCreateIntroDB = async (orderData: IOrder) => {
   const productId = orderData.product
-  const isExistBike = await BikeModel.findOne({ _id: productId })
-  // console.log('isExistBike :', isExistBike)
-
-  if (isExistBike) {
-    const cheekQuantity = isExistBike.quantity - orderData.quantity
-    // console.log(cheekQuantity)
+  const session = await mongoose.startSession()
+  try {
+    session.startTransaction()
+    const isExistBike = await BikeModel.findById(productId)
+    if (!isExistBike) {
+      throw new Error('Product is not found !')
+    }
     if (!isExistBike.inStock) {
       throw new Error('insufficient stock !')
     }
-    if (isExistBike.quantity === 0) {
-      throw new Error('insufficient stock !')
-    }
-    if (cheekQuantity < 0) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const result = await BikeModel.findByIdAndUpdate(productId, {
-        inStock: false,
-      })
+    if (isExistBike.quantity <= 0) {
+      await BikeModel.findByIdAndUpdate(isExistBike.id, { inStock: false })
       throw new Error('insufficient stock!')
     }
+    const cheekQuantity = isExistBike.quantity - orderData.quantity
 
-    if (isExistBike && cheekQuantity >= 0) {
-      await BikeModel.findByIdAndUpdate(productId, {
-        $inc: { quantity: -orderData.quantity },
-      })
-      // console.log(decrement, 'decrement from bikes collection')
-      const result = await OrderModel.create(orderData)
-      return result
+    if (cheekQuantity < 0) {
+      throw new Error('insufficient stock try again !')
     }
+    await BikeModel.findByIdAndUpdate(
+      productId,
+      {
+        $inc: { quantity: -orderData.quantity },
+      },
+      { session }
+    )
+    // console.log(decrement, 'decrement from bikes collection')
+    const result = await OrderModel.create(orderData, { session })
+    await session.commitTransaction()
+    await session.endSession()
+    return result
+  } catch (error: any) {
+    await session.abortTransaction()
+    await session.endSession()
+    throw new AppError(400, error.message)
   }
-  // console.log('something is gone a wrong')
-  throw new Error('Order is not found !')
-  // { success: false, status : 404  , message: 'there are no Product here with is ID ' }
 }
 
 const getAllOrderFromDB = async () => {
@@ -49,10 +56,7 @@ const getASpeecificeOrderFromDB = async (email: string) => {
 }
 
 //update product
-const updateOrderIntroDB = async (
-  productId: string,
-  updateData: UpdateQuery<Partial<IBike>>
-) => {
+const updateOrderIntroDB = async (productId: string, updateData) => {
   const result = await BikeModel.findByIdAndUpdate(productId, updateData, {
     new: true,
     runValidators: true,
