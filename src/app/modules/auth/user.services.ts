@@ -53,7 +53,7 @@ const blockUsersIntroDB = async (id: string) => {
 }
 
 const deleteUserIntroDB = async (id: string) => {
-  const result = await blog.findByIdAndDelete(id)
+  const result = await blog.findByIdAndUpdate(id, { isDelete: true })
   return result
 }
 

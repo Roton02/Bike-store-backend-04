@@ -4,6 +4,7 @@ interface IUser {
   password: string
   role?: string
   isBlocked?: boolean
+  isDeleted?: boolean
 }
 
 export default IUser

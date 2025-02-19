@@ -26,6 +26,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const blockUser = catchAsync(async (req: Request, res: Response) => {
+  console.log('first')
   const payload = req.params.userId
   const result = await userServcies.blockUsersIntroDB(payload)
   sendResponse(res, {
@@ -40,7 +41,7 @@ const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
   const result = await userServcies.deleteUserIntroDB(id)
   sendResponse(res, {
     success: true,
-    message: 'Blog deleted successfully',
+    message: 'customer deleted successfully',
     statusCode: 200,
   })
 })
