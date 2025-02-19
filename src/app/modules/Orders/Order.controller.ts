@@ -1,26 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { OrderServices } from './Order.services'
+import sendResponse from '../../utils/sendResponse'
+import catchAsync from '../../utils/catchAsync'
 
-const createOrder = async (req: Request, res: Response) => {
-  try {
-    const OrderData = req.body
-    const result = await OrderServices.OrderBikeIntroDB(OrderData)
-    res.status(200).json({
-      message: 'Order created successfully',
-      success: true,
-      data: result,
-    })
-    //TODO : error message gula thik kora lagbe --//
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.name,
-      error: error,
-      stack: process.env.NODE_ENV === 'production' ? null : error.stack,
-    })
-  }
-}
+const createOrder = catchAsync(async (req: Request, res: Response) => {
+  const OrderData = req.body
+  const result = await OrderServices.OrderBikeIntroDB(OrderData)
+  sendResponse(res, {
+    message: 'Order created successfully',
+    success: true,
+    statusCode: 200,
+    data: result,
+  })
+})
 
 const totalrevenue = async (req: Request, res: Response) => {
   try {

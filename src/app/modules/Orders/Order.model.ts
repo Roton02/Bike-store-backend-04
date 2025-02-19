@@ -1,18 +1,18 @@
 import { model, Schema } from 'mongoose'
-import { isEmail } from 'validator'
 import IOrder from './Order.interface'
+import mongoose from 'mongoose'
 
 const OrderSchema = new Schema<IOrder>(
   {
-    email: {
-      type: String,
-      required: [true, 'email is required'],
-      trim: true,
-      validate: [isEmail, 'invalid email'],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
     product: {
-      type: String,
-      required: [true, 'product id is required'],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
     },
     quantity: {
       type: Number,
@@ -21,8 +21,6 @@ const OrderSchema = new Schema<IOrder>(
     },
     totalPrice: {
       type: Number,
-      required: [true, 'totalPrice is required'],
-      min: [0, 'totalPrice must be a positive number'],
     },
   },
   {

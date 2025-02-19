@@ -1,8 +1,10 @@
+import mongoose from 'mongoose'
+
 interface IOrder {
-  email: string
-  product: string
+  user: mongoose.Types.ObjectId
+  product: mongoose.Types.ObjectId
   quantity: number
-  totalPrice: number
+  totalPrice?: number
 }
 
 export default IOrder
