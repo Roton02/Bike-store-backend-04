@@ -56,14 +56,15 @@ const getASpeecificeOrderFromDB = async (email: string) => {
 }
 
 //update order
-const updateOrderIntroDB = async (productId: string, payload: boolean) => {
-  const isDeleted = payload
-    ? { isAproved: 'approve' }
-    : { isAproved: 'canceled' }
-  const result = await OrderModel.findByIdAndUpdate(productId, isDeleted, {
-    new: true,
-    runValidators: true,
-  })
+const updateOrderIntroDB = async (productId: string, payload: string) => {
+  const result = await OrderModel.findByIdAndUpdate(
+    productId,
+    { isAproved: payload },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
   return result
 }
 

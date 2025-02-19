@@ -42,8 +42,8 @@ const getSpecificOrder = catchAsync(async (req: Request, res: Response) => {
 //Complete : update products
 const updateProducts = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.orderId
-  const { isApprove } = req.body
-  const result = await OrderServices.updateOrderIntroDB(productId, isApprove)
+  const { updateStatus } = req.body
+  const result = await OrderServices.updateOrderIntroDB(productId, updateStatus)
   sendResponse(res, {
     success: true,
     message: 'BIKE Update successfully',

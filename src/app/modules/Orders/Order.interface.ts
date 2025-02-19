@@ -5,7 +5,9 @@ interface IOrder {
   product: mongoose.Types.ObjectId
   quantity: number
   totalPrice?: number
-  isAproved?: 'approve' | 'pending' | 'canceled'
+  isAproved?: 'Pending' | 'Processing' | 'Shipped' | 'Delivered'
 }
 
 export default IOrder
+
+//Delivered  (Pending, Processing, Shipped, Delivered)

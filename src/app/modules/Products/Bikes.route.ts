@@ -14,11 +14,7 @@ BikesRouter.post(
 )
 BikesRouter.get('/', bikesController.getAllBikes)
 //complete: write  valid controller function
-BikesRouter.get(
-  '/:productId',
-  auth('customer', 'admin'),
-  bikesController.getSpecificBike
-)
+BikesRouter.get('/:productId', bikesController.getSpecificBike)
 BikesRouter.patch('/:productId', auth('admin'), bikesController.updateProducts) //  productId
 BikesRouter.delete('/:productId', auth('admin'), bikesController.deleteBike)
 

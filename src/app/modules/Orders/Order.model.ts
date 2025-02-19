@@ -25,10 +25,11 @@ const OrderSchema = new Schema<IOrder>(
     isAproved: {
       type: String,
       enum: {
-        values: ['approve', 'pending', 'canceled'],
+        values: ['Pending', 'Processing', 'Shipped', 'Delivered'],
       },
       default: 'pending',
     },
+    //(Pending, Processing, Shipped, Delivered)
   },
   {
     timestamps: true,
