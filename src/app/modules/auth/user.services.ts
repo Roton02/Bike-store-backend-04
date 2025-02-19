@@ -11,6 +11,7 @@ const createUserIntroDB = async (payload: IUser) => {
   if (isExist) {
     throw new AppError(400, 'Email already exists')
   }
+  payload.role = 'customer'
   const result = await user.create(payload)
   return result
 }
@@ -51,7 +52,7 @@ const blockUsersIntroDB = async (id: string) => {
   return result
 }
 
-const deleteBlogByAdminIntroDB = async (id: string) => {
+const deleteUserIntroDB = async (id: string) => {
   const result = await blog.findByIdAndDelete(id)
   return result
 }
@@ -60,5 +61,5 @@ export const userServcies = {
   createUserIntroDB,
   loginUserIntroDB,
   blockUsersIntroDB,
-  deleteBlogByAdminIntroDB,
+  deleteUserIntroDB,
 }

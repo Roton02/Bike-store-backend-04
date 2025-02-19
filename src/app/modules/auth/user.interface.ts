@@ -2,7 +2,7 @@ interface IUser {
   name: string
   email: string
   password: string
-  role?: 'customer'
+  role?: string
   isBlocked?: boolean
 }
 

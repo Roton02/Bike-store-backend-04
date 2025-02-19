@@ -37,7 +37,7 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
 
 const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
-  const result = await userServcies.deleteBlogByAdminIntroDB(id)
+  const result = await userServcies.deleteUserIntroDB(id)
   sendResponse(res, {
     success: true,
     message: 'Blog deleted successfully',
