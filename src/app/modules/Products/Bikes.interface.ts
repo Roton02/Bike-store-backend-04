@@ -6,7 +6,6 @@ interface IBike {
   description: string
   quantity: number
   inStock: boolean
-  type : ''
 }
 
 export default IBike
