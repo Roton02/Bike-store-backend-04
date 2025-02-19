@@ -20,13 +20,11 @@ const BikeZodValidation = z.object({
     })
     .min(0, { message: 'Price must be a positive number' }),
 
-  category: z
-    .enum(['Mountain', 'Road', 'Hybrid', 'Electric'], {
-      errorMap: (issue, ctx) => {
-        return { message: `${ctx.data} is not a valid category` }
-      },
-    })
-    .refine((val) => !val, { message: 'Category is required' }),
+  category: z.enum(['Mountain', 'Road', 'Hybrid', 'Electric'], {
+    errorMap: (issue, ctx) => {
+      return { message: `${ctx.data} is not a valid category` }
+    },
+  }),
 
   description: z
     .string({

@@ -1,13 +1,13 @@
 import { Router } from 'express'
-import blogRouter from '../modules/Blog/blog.routes'
 import userRouter from '../modules/auth/user.routes'
+import BikesRouter from '../modules/Products/Bikes.route'
 
 const router = Router()
 
 const routers = [
   {
-    path: '/blogs',
-    router: blogRouter,
+    path: '/bike',
+    router: BikesRouter,
   },
   {
     path: '/',

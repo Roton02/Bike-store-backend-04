@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import { bikesServices } from './Bikes.services'
 import catchAsync from '../../utils/catchAsync'
+import sendResponse from '../../utils/sendResponse'
 // import BikeZodValidation from './Bike.validation'
 
 const createBike = catchAsync(async (req: Request, res: Response) => {
   const body = req.body
   const result = await bikesServices.createBikesIntroDB(body)
-  res.status(200).json({
-    message: 'Bike created successfully',
+  sendResponse(res, {
     success: true,
+    message: 'Bike Create successfully',
+    statusCode: 200,
     data: result,
   })
 })
+
+//! Todo : add pagination and other requirements
 
 const getAllBikes = catchAsync(async (req: Request, res: Response) => {
   const { searchTerm } = req.query
@@ -36,9 +39,10 @@ const getAllBikes = catchAsync(async (req: Request, res: Response) => {
 const getSpecificBike = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.productId
   const result = await bikesServices.getASpeecificeBikeFromDB(productId)
-  res.status(200).json({
-    message: 'Bikes retrieved successfully',
+  sendResponse(res, {
     success: true,
+    message: 'Bikes retrieved successfully',
+    statusCode: 200,
     data: result,
   })
 })
@@ -48,9 +52,10 @@ const updateProducts = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.productId
   const updateData = req.body
   const result = await bikesServices.updateDataIntroDB(productId, updateData)
-  res.status(200).json({
-    message: 'Bikes updated successfully',
+  sendResponse(res, {
     success: true,
+    message: 'BIKE Update successfully',
+    statusCode: 200,
     data: result,
   })
 })
@@ -58,9 +63,10 @@ const deleteBike = catchAsync(async (req: Request, res: Response) => {
   const productId = req.params.productId
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const result = await bikesServices.deleteDataFromDB(productId)
-  res.status(200).json({
-    message: 'Bikes deleted  successfully',
+  sendResponse(res, {
     success: true,
+    message: 'bike deleted successfully',
+    statusCode: 200,
     data: '',
   })
 })
