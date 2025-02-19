@@ -10,7 +10,7 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 201,
     success: true,
-    message: 'User registered successfully',
+    message: 'Customer registered successfully',
     data: result,
   })
 })
@@ -21,7 +21,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'Login successful',
+    message: 'Customer Login successful',
     data: result,
   })
 })
@@ -31,11 +31,11 @@ const blockUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'User blocked successfully',
+    message: 'Customer blocked successfully',
   })
 })
 
-const deleteBlogByAdmin = catchAsync(async (req: Request, res: Response) => {
+const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
   const result = await userServcies.deleteBlogByAdminIntroDB(id)
   sendResponse(res, {
@@ -49,5 +49,5 @@ export const userControlloer = {
   createUser,
   loginUser,
   blockUser,
-  deleteBlogByAdmin,
+  deleteCustomer,
 }
