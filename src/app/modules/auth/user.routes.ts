@@ -26,7 +26,6 @@ userRouter.delete(
   auth('admin'),
   userControlloer.deleteCustomer
 )
-
-// /api/admin/users/:userId/block
+userRouter.get('/get-all-users', userControlloer.getAllCustomer)
 
 export default userRouter

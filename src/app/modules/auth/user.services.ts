@@ -1,6 +1,5 @@
 import config from '../../config'
 import AppError from '../../error/AppError'
-import { blog } from '../Blog/blog.model'
 import IUser, { IloginUser } from './user.interface'
 import { user } from './user.model'
 import bcrypt from 'bcrypt'
@@ -52,8 +51,12 @@ const blockUsersIntroDB = async (id: string) => {
   return result
 }
 
+const getAllUserIntroDB = async () => {
+  const result = await user.find()
+  return result
+}
 const deleteUserIntroDB = async (id: string) => {
-  const result = await blog.findByIdAndUpdate(id, { isDelete: true })
+  const result = await user.findByIdAndUpdate(id, { isDelete: true })
   return result
 }
 
@@ -62,4 +65,5 @@ export const userServcies = {
   loginUserIntroDB,
   blockUsersIntroDB,
   deleteUserIntroDB,
+  getAllUserIntroDB,
 }

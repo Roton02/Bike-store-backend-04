@@ -45,10 +45,20 @@ const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
     statusCode: 200,
   })
 })
+const getAllCustomer = catchAsync(async (req: Request, res: Response) => {
+  const result = await userServcies.getAllUserIntroDB()
+  sendResponse(res, {
+    success: true,
+    message: 'customer retrived successfully',
+    statusCode: 200,
+    data: result,
+  })
+})
 
 export const userControlloer = {
   createUser,
   loginUser,
   blockUser,
   deleteCustomer,
+  getAllCustomer,
 }
