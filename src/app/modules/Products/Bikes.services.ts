@@ -6,7 +6,7 @@ const createBikesIntroDB = async (Bike: IBike): Promise<IBike> => {
   const result = await BikeModel.create(Bike)
   return result
 }
-//TODO : complete the query wised  get data
+//!TODO : complete the query wised  get data
 const getAllBikesFromDb = async (searchTerm: string): Promise<IBike[]> => {
   const search = new RegExp(searchTerm, 'i')
   const result = await BikeModel.find({ name: { $regex: search } })
