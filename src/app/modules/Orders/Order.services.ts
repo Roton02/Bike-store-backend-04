@@ -2,7 +2,7 @@ import BikeModel from '../Products/Bikes.model'
 import IOrder from './Order.interface'
 import OrderModel from './Order.model'
 
-const OrderBikeIntroDB = async (orderData: IOrder) => {
+const OrderCreateIntroDB = async (orderData: IOrder) => {
   const productId = orderData.product
   const isExistBike = await BikeModel.findOne({ _id: productId })
   // console.log('isExistBike :', isExistBike)
@@ -38,24 +38,55 @@ const OrderBikeIntroDB = async (orderData: IOrder) => {
   // { success: false, status : 404  , message: 'there are no Product here with is ID ' }
 }
 
-//DONE : multifly value is not correct
-const totalRevenueFromDB = async () => {
-  const result = await OrderModel.aggregate([
-    {
-      $group: {
-        _id: 'null',
-        totalRevenue: { $sum: { $multiply: ['$quantity', '$totalPrice'] } },
-      },
-    },
-    {
-      $project: { totalRevenue: 1, _id: 0 },
-    },
-  ])
-
-  // console.log(result, 'asdffasdfsdf')
+const getAllOrderFromDB = async () => {
+  const result = await BikeModel.find()
   return result
 }
+//complete get specifice data
+const getASpeecificeOrderFromDB = async (email: string) => {
+  const result = await BikeModel.findById(productId)
+  return result
+}
+
+//update product
+const updateOrderIntroDB = async (
+  productId: string,
+  updateData: UpdateQuery<Partial<IBike>>
+) => {
+  const result = await BikeModel.findByIdAndUpdate(productId, updateData, {
+    new: true,
+    runValidators: true,
+  })
+  return result
+}
+
+//Delete Data
+const deleteOrderFromDB = async (productId: string | null | undefined) => {
+  const result = await BikeModel.deleteOne({ _id: productId })
+  return result
+}
+
+//DONE : multifly value is not correct
+// const totalRevenueFromDB = async () => {
+//   const result = await OrderModel.aggregate([
+//     {
+//       $group: {
+//         _id: 'null',
+//         totalRevenue: { $sum: { $multiply: ['$quantity', '$totalPrice'] } },
+//       },
+//     },
+//     {
+//       $project: { totalRevenue: 1, _id: 0 },
+//     },
+//   ])
+
+//   // console.log(result, 'asdffasdfsdf')
+//   return result
+// }
 export const OrderServices = {
-  OrderBikeIntroDB,
-  totalRevenueFromDB,
+  OrderCreateIntroDB,
+  getAllOrderFromDB,
+  getASpeecificeOrderFromDB,
+  deleteOrderFromDB,
+  updateOrderIntroDB,
 }

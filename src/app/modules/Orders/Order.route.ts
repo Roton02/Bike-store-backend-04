@@ -4,8 +4,9 @@ import { orderController } from './Order.controller'
 const OrderRouter = express.Router()
 
 OrderRouter.post('/create-order', orderController.createOrder)
-OrderRouter.get('/get-order', orderController.totalrevenue)
-OrderRouter.patch('/update-order', orderController.totalrevenue)
-OrderRouter.delete('/delete-order', orderController.totalrevenue)
+OrderRouter.get('/get-single', orderController.getSpecificBike)
+OrderRouter.get('/get-order', orderController.getAllOrder)
+OrderRouter.patch('/update-order', orderController.updateProducts)
+OrderRouter.delete('/delete-order', orderController.deleteBike)
 
 export default OrderRouter

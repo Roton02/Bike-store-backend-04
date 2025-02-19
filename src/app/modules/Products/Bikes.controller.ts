@@ -15,25 +15,16 @@ const createBike = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-//! Todo : add pagination and other requirements
-
 const getAllBikes = catchAsync(async (req: Request, res: Response) => {
   const { searchTerm } = req.query
   // const term = typeof searchTerm === 'string' ? searchTerm : undefined;
   const result = await bikesServices.getAllBikesFromDb(searchTerm as string)
-  //throw an error
-  if (result.length > 0) {
-    res.status(200).json({
-      message: 'Bikes retrieved successfully',
-      success: true,
-      data: result,
-    })
-  } else {
-    res.status(500).json({
-      success: false,
-      message: 'data is not found ',
-    })
-  }
+  sendResponse(res, {
+    success: true,
+    message: 'Bikes retrieved successfully',
+    statusCode: 200,
+    data: result,
+  })
 })
 
 const getSpecificBike = catchAsync(async (req: Request, res: Response) => {
