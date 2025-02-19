@@ -8,7 +8,10 @@ import { user } from '../modules/auth/user.model'
 const auth = (...requiredRole: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const extractedToken = req.headers.authorization
-    const token = (extractedToken as string).split(' ')[1]
+    if (!extractedToken || !extractedToken.startsWith('Bearer ')) {
+      throw new AppError(401, 'You are not authorized to access')
+    }
+    const token = extractedToken.split(' ')[1]
 
     if (!token) {
       throw new AppError(400, 'You are not authorized to access')
