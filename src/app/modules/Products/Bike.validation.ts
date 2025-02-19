@@ -7,6 +7,11 @@ const BikeZodValidation = z.object({
       required_error: 'Name is required',
     })
     .trim(),
+  image: z
+    .string({
+      required_error: 'Name is required',
+    })
+    .trim(),
 
   brand: z
     .string({

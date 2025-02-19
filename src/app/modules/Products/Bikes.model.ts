@@ -8,6 +8,11 @@ const BikesSchema = new Schema<IBike>(
       required: [true, 'Name is required'],
       trim: true,
     },
+    image: {
+      type: String,
+      required: [true, 'Image is required'],
+      trim: true,
+    },
     brand: {
       type: String,
       required: [true, 'Brand is required'],
