@@ -68,7 +68,7 @@ const updateOrderIntroDB = async (productId: string, payload: boolean) => {
 }
 
 //Delete Data
-const deleteOrderFromDB = async (productId: string | null | undefined) => {
+const deleteOrderFromDB = async (productId: string) => {
   const result = await OrderModel.deleteOne({ _id: productId })
   return result
 }

@@ -28,7 +28,7 @@ const getAllOrder = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-const getSpecificBike = catchAsync(async (req: Request, res: Response) => {
+const getSpecificOrder = catchAsync(async (req: Request, res: Response) => {
   const { email } = req.user as JwtPayload
   const result = await OrderServices.getASpeecificeOrderFromDB(email)
   sendResponse(res, {
@@ -41,9 +41,8 @@ const getSpecificBike = catchAsync(async (req: Request, res: Response) => {
 
 //Complete : update products
 const updateProducts = catchAsync(async (req: Request, res: Response) => {
-  const productId = req.params.productId
+  const productId = req.params.orderId
   const { isApprove } = req.body
-  const { email } = req.user as JwtPayload
   const result = await OrderServices.updateOrderIntroDB(productId, isApprove)
   sendResponse(res, {
     success: true,
@@ -53,9 +52,8 @@ const updateProducts = catchAsync(async (req: Request, res: Response) => {
   })
 })
 const deleteBike = catchAsync(async (req: Request, res: Response) => {
-  const productId = req.params.productId
-  const { email } = req.user as JwtPayload
-  const result = await OrderServices.deleteOrderFromDB(productId, email)
+  const productId = req.params.orderId
+  const result = await OrderServices.deleteOrderFromDB(productId)
   sendResponse(res, {
     success: true,
     message: 'bike deleted successfully',
@@ -86,7 +84,7 @@ const deleteBike = catchAsync(async (req: Request, res: Response) => {
 export const orderController = {
   createOrder,
   getAllOrder,
-  getSpecificBike,
+  getSpecificOrder,
   updateProducts,
   deleteBike,
   // totalrevenue,

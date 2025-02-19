@@ -6,12 +6,12 @@ const OrderSchema = new Schema<IOrder>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'user',
       required: true,
     },
     product: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Bikes',
       required: true,
     },
     quantity: {
