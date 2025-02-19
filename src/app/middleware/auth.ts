@@ -6,9 +6,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 import { user } from '../modules/auth/user.model'
 
 const auth = (...requiredRole: string[]) => {
-  // console.log('auth middleware triggered ')
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    // console.log('auth middleware inside ')
     const extractedToken = req.headers.authorization
     const token = (extractedToken as string).split(' ')[1]
 
