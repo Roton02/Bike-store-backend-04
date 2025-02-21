@@ -1,8 +1,14 @@
 import multer from 'multer'
+import fs from 'fs'
 import path from 'path'
 import { v2 as cloudinary } from 'cloudinary'
 import config from '../config'
-import fs from 'fs'
+
+// Ensure uploads folder exists
+const uploadDir = './uploads'
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir)
+}
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -11,15 +17,14 @@ const storage = multer.diskStorage({
   filename(req, file, callback) {
     const ext = path.extname(file.originalname)
     const fileName =
-      file.originalname.replace(ext, ' ').split(' ').join('-').toLowerCase() +
+      file.originalname.replace(ext, '').split(' ').join('-').toLowerCase() +
       '-' +
       Date.now()
     callback(null, fileName + ext)
-    // console.log(file)
   },
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage })
 
 export default upload
 
@@ -29,15 +34,18 @@ cloudinary.config({
   api_secret: config.CLOUDINARY_API_SECRET,
 })
 
-export const cloudinaryImage = (image: string, path: string) => {
-  return new Promise((resolve, rejects) => {
+export const cloudinaryImage = (image: string, filePath: string) => {
+  return new Promise((resolve, reject) => {
+    const absolutePath = path.resolve(filePath)
     cloudinary.uploader.upload(
-      path,
+      absolutePath,
       { public_id: image.trim() },
       (error, result) => {
-        fs.unlinkSync(path)
+        if (fs.existsSync(absolutePath)) {
+          fs.unlinkSync(absolutePath) // Delete file after upload
+        }
         if (error) {
-          rejects(error)
+          reject(error)
         }
         resolve(result)
       }

@@ -2,11 +2,19 @@ import { Request, Response } from 'express'
 import { bikesServices } from './Bikes.services'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
-// import BikeZodValidation from './Bike.validation'
+import { cloudinaryImage } from '../../utils/sendImageCloudinary'
 
 const createBike = catchAsync(async (req: Request, res: Response) => {
-  const body = req.body
-  const result = await bikesServices.createBikesIntroDB(body)
+  const data = JSON.parse(req.body.data)
+  if (req.file) {
+    const imageName = 'roton'
+    const path = req.file?.path
+    const { secure_url } = (await cloudinaryImage(imageName, path)) as {
+      secure_url: string
+    }
+    data.image = secure_url
+  }
+  const result = await bikesServices.createBikesIntroDB(data)
   sendResponse(res, {
     success: true,
     message: 'Bike Create successfully',
